@@ -1,11 +1,10 @@
-import { createTransactionEvent, HandleTransaction, ethers, TransactionEvent } from "forta-agent";
+import { createTransactionEvent, HandleTransaction, ethers, TransactionEvent, getJsonRpcUrl } from "forta-agent";
 import agent, { NETHERMIND_DEPLOYER_ADDRESS } from "./agent";
 import { AGENT_REGISTRY_ABI } from "./abi/agentRegistry";
 import { AGENT_REGISTRY_ADDR } from "./constants";
 import { TestTransactionEvent } from "forta-agent-tools/lib/test";
 
-const url = "http://localhost:8545";
-const rpcProvider = new ethers.providers.JsonRpcProvider(url);
+const rpcProvider = new ethers.providers.JsonRpcProvider(getJsonRpcUrl());
 
 describe("nethermind bot creation and update monitoring agent", () => {
   let handleTransaction: HandleTransaction;
