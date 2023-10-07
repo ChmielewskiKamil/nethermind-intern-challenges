@@ -42,7 +42,7 @@ describe("nethermind bot creation and update monitoring agent", () => {
       // addEventLog calls Ethers#encodeEventLog internally
       // https://github.com/NethermindEth/general-agents-module/blob/ba7d309ef618b4afc65514a02469792a7168ebaf/src/test/test_transaction_event.ts#L98
       // It's implementation https://github.com/ethers-io/ethers.js/blob/06db04082278a2d7d6fbde925976356c95281891/src.ts/abi/interface.ts#L1071-L1088
-      // Uses assert to check if the length of arguments == length of inputs
+      // Uses assert to check if the length of arguments === length of inputs
       // if not, it reverts
       // When you pass EventFragment, the inputs are mandatory because of the argument/value mismatch
       .addEventLog(eventFragment, sender, inputs);
