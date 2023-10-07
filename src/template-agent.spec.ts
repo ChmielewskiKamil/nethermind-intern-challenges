@@ -1,5 +1,5 @@
 import { FindingType, FindingSeverity, Finding, HandleTransaction, createTransactionEvent, ethers } from "forta-agent";
-import agent, { ERC20_TRANSFER_EVENT, TETHER_ADDRESS, TETHER_DECIMALS } from "./agent";
+import agent, { ERC20_TRANSFER_EVENT, TETHER_ADDRESS, TETHER_DECIMALS } from "./template-agent";
 
 describe("high tether transfer agent", () => {
   let handleTransaction: HandleTransaction;
