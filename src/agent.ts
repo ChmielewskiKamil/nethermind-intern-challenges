@@ -1,0 +1,1 @@
+export const NETHERMIND_DEPLOYER_ADDRESS = "";
