@@ -18,3 +18,9 @@ export const NETHERMIND_BOT_CREATE_TX = "0x4d4c1a71122050441129c656cc7c239753b3c
 // This is a TX that DOES NOT originate from the Nethermind deployer that:
 // - Updates the Forta Bot
 export const NON_NETHERMIND_BOT_UPDATE_TX = "0x6f2c67182d50b9fc85b837fcff943f6f574a9b545c5903feb19671e92f7b2f1c";
+
+// https://polygonscan.com/tx/0xa201c72c280e7bc0babc0eb55af9b90208c10df3a52b88e31f29fca2212a679c
+// This is a TX originating from the Nethermind deployer that:
+// - DOES NOT interact with the Agent Registry contract
+// - BUT emits the same Transfer event signature as the Agent Registry contract
+export const NETHERMIND_NON_AGENT_REGISTRY_TX = "0xa201c72c280e7bc0babc0eb55af9b90208c10df3a52b88e31f29fca2212a679c";
