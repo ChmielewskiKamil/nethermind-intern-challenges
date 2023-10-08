@@ -17,9 +17,8 @@ const handleTransaction: HandleTransaction = async (txEvent: TransactionEvent) =
     "event AgentUpdated(uint256 indexed agentId, address indexed by, string metadata, uint256[] chainIds)",
     "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
   ];
-  // Why can't I use getEvent from the interface?
-  // @TODO This is obv wrong, but I can't get eventFiltering to work
 
+  // Why can't I use getEvent from the interface?
   txEvent.filterLog(HARDCODED_EVENT_SIGS, NETHERMIND_DEPLOYER_ADDRESS).forEach((log) => {
     findings.push(createFinding(log));
   });
@@ -49,7 +48,7 @@ export const createFinding = (log: LogDescription): Finding => {
     default:
       return Finding.from({
         name: "Forta Agent has been updated",
-        description: `Agent ${log.args[0]} has been updated by ${log.args[1]}`,
+        description: `Forta Agent ${log.args[0]} has been updated by ${log.args[1]}`,
         alertId: "NETH-FORTA-BOT-UPDATE",
         protocol: "Forta",
         type: FindingType.Info,
