@@ -32,37 +32,26 @@ describe("nethermind bot creation and update monitoring agent", () => {
   });
 
   it("returns empty findings when no bot created or updated in a tx", async () => {
-    const receipt = await rpcProvider.getTransactionReceipt(NETHERMIND_BOT_ENABLE_DISABLE_TX);
-    let sender = receipt.from;
-    let parsedLog = agentRegistry.interface.parseLog(receipt.logs[0]);
-    let inputs = parsedLog.args;
-    let eventFragment = parsedLog.eventFragment;
+    const txEvent: TransactionEvent = await createTxEventFromReceipt(
+      agentRegistry,
+      NETHERMIND_BOT_ENABLE_DISABLE_TX,
+      rpcProvider
+    );
 
-    const txEvent = new TestTransactionEvent().addEventLog(eventFragment, sender, inputs);
     const findings = await handleTransaction(txEvent);
+
     expect(findings).toHaveLength(0);
   });
 
   it("returns one finding for tx with bot update", async () => {
-    // @TODO Move hardcoded hashed to one file and explain them there
-    const receipt = await rpcProvider.getTransactionReceipt(NETHERMIND_BOT_UPDATE_TX);
-
-    let sender = receipt.from;
-    let parsedLog = agentRegistry.interface.parseLog(receipt.logs[0]);
-    let inputs = parsedLog.args;
-    let eventFragment = parsedLog.eventFragment;
-
-    const txEvent: TransactionEvent = new TestTransactionEvent()
-      // Documentation about addEventLog is incorrect,
-      // addEventLog calls Ethers#encodeEventLog internally
-      // https://github.com/NethermindEth/general-agents-module/blob/ba7d309ef618b4afc65514a02469792a7168ebaf/src/test/test_transaction_event.ts#L98
-      // It's implementation https://github.com/ethers-io/ethers.js/blob/06db04082278a2d7d6fbde925976356c95281891/src.ts/abi/interface.ts#L1071-L1088
-      // Uses assert to check if the length of arguments === length of inputs
-      // if not, it reverts
-      // When you pass EventFragment, the inputs are mandatory because of the argument/value mismatch
-      .addEventLog(eventFragment, sender, inputs);
+    const txEvent: TransactionEvent = await createTxEventFromReceipt(
+      agentRegistry,
+      NETHERMIND_BOT_UPDATE_TX,
+      rpcProvider
+    );
 
     const findings = await handleTransaction(txEvent);
+
     expect(findings).toStrictEqual([
       Finding.fromObject({
         name: "Forta Agent has been updated",
@@ -79,14 +68,11 @@ describe("nethermind bot creation and update monitoring agent", () => {
   });
 
   it("should distinguish between bot creation and bot update", async () => {
-    const receipt = await rpcProvider.getTransactionReceipt(NETHERMIND_BOT_CREATE_TX);
-
-    let sender = receipt.from;
-    let parsedLog = agentRegistry.interface.parseLog(receipt.logs[0]);
-    let inputs = parsedLog.args;
-    let eventFragment = parsedLog.eventFragment;
-
-    const txEvent: TransactionEvent = new TestTransactionEvent().addEventLog(eventFragment, sender, inputs);
+    const txEvent: TransactionEvent = await createTxEventFromReceipt(
+      agentRegistry,
+      NETHERMIND_BOT_CREATE_TX,
+      rpcProvider
+    );
 
     const findings = await handleTransaction(txEvent);
 
@@ -103,4 +89,32 @@ describe("nethermind bot creation and update monitoring agent", () => {
       }),
     ]);
   });
+
+  it("should alert only when txs originate from nethermind deployer", async () => {});
 });
+
+const createTxEventFromReceipt = async (
+  contract: ethers.Contract,
+  txHash: string,
+  rpcProvider: ethers.providers.JsonRpcProvider
+): Promise<TransactionEvent> => {
+  const receipt = await rpcProvider.getTransactionReceipt(txHash);
+  let sender = receipt.from;
+  // @TODO: This should probably dynamically select logs to parse
+  // or even better parse all of them
+  let parsedLog = contract.interface.parseLog(receipt.logs[0]);
+  let inputs = parsedLog.args;
+  let eventFragment = parsedLog.eventFragment;
+
+  const txEvent: TransactionEvent = new TestTransactionEvent()
+    // Documentation about addEventLog is incorrect,
+    // addEventLog calls Ethers#encodeEventLog internally
+    // https://github.com/NethermindEth/general-agents-module/blob/ba7d309ef618b4afc65514a02469792a7168ebaf/src/test/test_transaction_event.ts#L98
+    // It's implementation https://github.com/ethers-io/ethers.js/blob/06db04082278a2d7d6fbde925976356c95281891/src.ts/abi/interface.ts#L1071-L1088
+    // Uses assert to check if the length of arguments === length of inputs
+    // if not, it reverts
+    // When you pass EventFragment, the inputs are mandatory because of the argument/value mismatch
+    .addEventLog(eventFragment, sender, inputs);
+
+  return txEvent;
+};
