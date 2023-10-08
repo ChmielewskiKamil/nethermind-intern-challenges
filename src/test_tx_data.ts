@@ -13,3 +13,8 @@ export const NETHERMIND_BOT_ENABLE_DISABLE_TX = "0x1f63262d5d114b92cee2ff38bd242
 // This is a TX originating from the Nethermind deployer that:
 // - Creates the Forta Bot
 export const NETHERMIND_BOT_CREATE_TX = "0x4d4c1a71122050441129c656cc7c239753b3cbc278d1850a9a8a7c745818addc";
+
+// https://polygonscan.com/tx/0x6f2c67182d50b9fc85b837fcff943f6f574a9b545c5903feb19671e92f7b2f1c
+// This is a TX that DOES NOT originate from the Nethermind deployer that:
+// - Updates the Forta Bot
+export const NON_NETHERMIND_BOT_UPDATE_TX = "0x6f2c67182d50b9fc85b837fcff943f6f574a9b545c5903feb19671e92f7b2f1c";
