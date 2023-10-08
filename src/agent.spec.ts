@@ -26,9 +26,9 @@ describe("nethermind bot creation and update monitoring agent", () => {
   });
 
   it("[FORK] returns one finding for tx with bot update", async () => {
-    // const tx = await rpcProvider.getTransaction("0x6f2c67182d50b9fc85b837fcff943f6f574a9b545c5903feb19671e92f7b2f1c");
+    // const tx = await rpcProvider.getTransaction("0xc6a4f95f3bab231a7422f4c2424645104e81de1415c07fc7538cbdb4b8dfa97b");
     const receipt = await rpcProvider.getTransactionReceipt(
-      "0x6f2c67182d50b9fc85b837fcff943f6f574a9b545c5903feb19671e92f7b2f1c"
+      "0xc6a4f95f3bab231a7422f4c2424645104e81de1415c07fc7538cbdb4b8dfa97b"
     );
 
     let sender = receipt.from;
