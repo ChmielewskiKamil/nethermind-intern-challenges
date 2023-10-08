@@ -7,9 +7,9 @@ import {
   FindingType,
   FindingSeverity,
 } from "forta-agent";
-import agent, { NETHERMIND_DEPLOYER_ADDRESS } from "./agent";
+import agent from "./agent";
 import { AGENT_REGISTRY_ABI } from "./abi/agentRegistry";
-import { AGENT_REGISTRY_ADDR } from "./constants";
+import { AGENT_REGISTRY_ADDR, NETHERMIND_DEPLOYER_ADDRESS } from "./constants";
 import { NETHERMIND_BOT_CREATE_TX, NETHERMIND_BOT_ENABLE_DISABLE_TX, NETHERMIND_BOT_UPDATE_TX } from "./test_tx_data";
 import { createTxEventFromReceipt } from "./utils";
 
