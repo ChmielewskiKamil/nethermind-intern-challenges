@@ -116,7 +116,11 @@ describe("nethermind bot creation and update monitoring agent", () => {
     expect(findings).toStrictEqual([]);
   });
 
-  it("should not alert when nethermind deployer interacts with different contract", async () => {
+  /* @audit-issue As of now this test fails because there is no sanity check,
+   * that the tx hash provided comes from the actual contract that was specified.
+   * In this case we are trying to create a tx Event from the tx that did not interact
+   * with the Agent Registry contract. */
+  it("should not alert when nethermind deployer interacts with non AgentRegistry contract", async () => {
     const txEvent: TransactionEvent = await createTxEventFromReceipt(
       agentRegistry,
       NETHERMIND_NON_AGENT_REGISTRY_TX,
