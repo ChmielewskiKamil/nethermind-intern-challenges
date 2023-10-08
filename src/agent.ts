@@ -9,7 +9,7 @@ const networkManager = new NetworkManager<NetworkData>(CONFIG);
 
 // Asynchronous initialization handler, usefull for fetching data from APIs
 // Is it run automatically when the bot is deployed?
-// This pattern is mentioned in the best practices as well as most of the bots use it.
+// This pattern is mentioned in the best practices also most of the bots use it.
 const provideInitialize = (networkManager: NetworkManager<NetworkData>, provider: providers.Provider): Initialize => {
   return async () => {
     await networkManager.init(provider);
