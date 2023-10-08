@@ -35,11 +35,11 @@ export default {
 // https://github.com/NethermindEth/Forta-Agents/blob/main/compound-comptroller-bot/src/finding.ts
 export const createFinding = (log: LogDescription): Finding => {
   switch (log.signature) {
-    case "AgentUpdated(uint256,address,string,uint256[])":
+    case "Transfer(address,address,uint256)":
       return Finding.from({
-        name: "Forta Agent has been updated",
-        description: `Agent ${log.args[0]} has been updated by ${log.args[1]}`,
-        alertId: "NETH-FORTA-BOT-UPDATE",
+        name: "Forta Agent has been created",
+        description: `Forta Agent has been created by ${log.args[1]}`,
+        alertId: "NETH-FORTA-BOT-CREATE",
         protocol: "Forta",
         type: FindingType.Info,
         severity: FindingSeverity.Info,
@@ -48,10 +48,10 @@ export const createFinding = (log: LogDescription): Finding => {
       });
     default:
       return Finding.from({
-        name: "",
-        description: "",
-        alertId: "",
-        protocol: "",
+        name: "Forta Agent has been updated",
+        description: `Agent ${log.args[0]} has been updated by ${log.args[1]}`,
+        alertId: "NETH-FORTA-BOT-UPDATE",
+        protocol: "Forta",
         type: FindingType.Info,
         severity: FindingSeverity.Info,
         metadata: {},
