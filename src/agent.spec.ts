@@ -8,7 +8,10 @@ const rpcProvider = new ethers.providers.JsonRpcProvider(getJsonRpcUrl());
 import { NETHERMIND_BOT_UPDATE_TX } from "./test_tx_data";
 
 describe("nethermind bot creation and update monitoring agent", () => {
+  // @TODO: Move this part to NetworkManager and later to initialise function
+  // @TODO: Wrap this into provideHandleTransaction
   let handleTransaction: HandleTransaction;
+  // @TODO: Move this to initialise function
   let agentRegistry: ethers.Contract;
   const mockTxEvent = createTransactionEvent({} as any);
 
