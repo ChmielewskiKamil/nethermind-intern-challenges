@@ -6,19 +6,13 @@ import {
   TransactionEvent,
   LogDescription,
 } from "forta-agent";
-import { NETHERMIND_DEPLOYER_ADDRESS } from "./constants";
+import { EVENT_SIGS_TO_MONITOR, NETHERMIND_DEPLOYER_ADDRESS } from "./constants";
 
 const handleTransaction: HandleTransaction = async (txEvent: TransactionEvent) => {
   const findings: Finding[] = [];
 
-  // This is not a typical Solidity signature :>
-  const HARDCODED_EVENT_SIGS = [
-    "event AgentUpdated(uint256 indexed agentId, address indexed by, string metadata, uint256[] chainIds)",
-    "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
-  ];
-
   // Why can't I use getEvent from the interface?
-  txEvent.filterLog(HARDCODED_EVENT_SIGS, NETHERMIND_DEPLOYER_ADDRESS).forEach((log) => {
+  txEvent.filterLog(EVENT_SIGS_TO_MONITOR, NETHERMIND_DEPLOYER_ADDRESS).forEach((log) => {
     findings.push(createFinding(log));
   });
 
