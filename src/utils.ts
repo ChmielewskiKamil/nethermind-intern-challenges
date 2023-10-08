@@ -65,3 +65,9 @@ export const createFinding = (log: LogDescription): Finding => {
       });
   }
 };
+
+export interface NetworkData {
+  nethermindDeployerAddress: string;
+}
+
+export type AgentConfig = Record<number, NetworkData>;

@@ -6,8 +6,9 @@ import {
   Finding,
   FindingType,
   FindingSeverity,
+  Network,
 } from "forta-agent";
-import agent from "./agent";
+import agent, { provideHandleTransaction } from "./agent";
 import { AGENT_REGISTRY_ABI } from "./abi/agentRegistry";
 import { AGENT_REGISTRY_ADDR, NETHERMIND_DEPLOYER_ADDRESS } from "./constants";
 import {
@@ -16,7 +17,9 @@ import {
   NETHERMIND_BOT_UPDATE_TX,
   NON_NETHERMIND_BOT_UPDATE_TX,
 } from "./test_tx_data";
-import { createTxEventFromReceipt } from "./utils";
+import { createTxEventFromReceipt, NetworkData } from "./utils";
+import { NetworkManager } from "forta-agent-tools";
+import CONFIG from "./agent.config";
 
 // The following test suite does not use ganache due to personal preference.
 // Instead, it uses forked anvil polygon mainnet, which caches subsequent requests.
@@ -28,10 +31,12 @@ describe("nethermind bot creation and update monitoring agent", () => {
   const rpcProvider = new ethers.providers.JsonRpcProvider(getJsonRpcUrl());
   // @TODO: Wrap this into provideHandleTransaction
   let handleTransaction: HandleTransaction;
+  let networkManager: NetworkManager<NetworkData>;
   let agentRegistry: ethers.Contract;
 
   beforeAll(() => {
-    handleTransaction = agent.handleTransaction;
+    networkManager = new NetworkManager(CONFIG, Network.POLYGON);
+    handleTransaction = provideHandleTransaction(networkManager);
     agentRegistry = new ethers.Contract(AGENT_REGISTRY_ADDR, AGENT_REGISTRY_ABI, rpcProvider);
   });
 
