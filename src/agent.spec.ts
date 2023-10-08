@@ -10,7 +10,12 @@ import {
 import agent from "./agent";
 import { AGENT_REGISTRY_ABI } from "./abi/agentRegistry";
 import { AGENT_REGISTRY_ADDR, NETHERMIND_DEPLOYER_ADDRESS } from "./constants";
-import { NETHERMIND_BOT_CREATE_TX, NETHERMIND_BOT_ENABLE_DISABLE_TX, NETHERMIND_BOT_UPDATE_TX } from "./test_tx_data";
+import {
+  NETHERMIND_BOT_CREATE_TX,
+  NETHERMIND_BOT_ENABLE_DISABLE_TX,
+  NETHERMIND_BOT_UPDATE_TX,
+  NON_NETHERMIND_BOT_UPDATE_TX,
+} from "./test_tx_data";
 import { createTxEventFromReceipt } from "./utils";
 
 describe("nethermind bot creation and update monitoring agent", () => {
@@ -90,5 +95,15 @@ describe("nethermind bot creation and update monitoring agent", () => {
     ]);
   });
 
-  it("should alert only when txs originate from nethermind deployer", async () => {});
+  it("should alert only when txs originate from nethermind deployer", async () => {
+    const txEvent: TransactionEvent = await createTxEventFromReceipt(
+      agentRegistry,
+      NON_NETHERMIND_BOT_UPDATE_TX,
+      rpcProvider
+    );
+
+    const findings = await handleTransaction(txEvent);
+
+    expect(findings).toStrictEqual([]);
+  });
 });
