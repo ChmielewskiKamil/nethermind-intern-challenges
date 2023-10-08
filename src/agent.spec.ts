@@ -3,12 +3,11 @@ import agent, { NETHERMIND_DEPLOYER_ADDRESS } from "./agent";
 import { AGENT_REGISTRY_ABI } from "./abi/agentRegistry";
 import { AGENT_REGISTRY_ADDR } from "./constants";
 import { TestTransactionEvent } from "forta-agent-tools/lib/test";
-
-const rpcProvider = new ethers.providers.JsonRpcProvider(getJsonRpcUrl());
 import { NETHERMIND_BOT_UPDATE_TX } from "./test_tx_data";
 
 describe("nethermind bot creation and update monitoring agent", () => {
   // @TODO: Move this part to NetworkManager and later to initialise function
+  const rpcProvider = new ethers.providers.JsonRpcProvider(getJsonRpcUrl());
   // @TODO: Wrap this into provideHandleTransaction
   let handleTransaction: HandleTransaction;
   // @TODO: Move this to initialise function
