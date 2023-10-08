@@ -18,6 +18,12 @@ import {
 } from "./test_tx_data";
 import { createTxEventFromReceipt } from "./utils";
 
+// The following test suite does not use ganache due to personal preference.
+// Instead, it uses forked anvil polygon mainnet, which caches subsequent requests.
+// Polygon offers free rpc at: https://polygon-rpc.com
+// 1. Spin up anvil with `anvil --fork-url https://polygon-rpc.com`
+// 2. Add `"jsonRpcUrl": "http://localhost:8545"` to your forta.config.json file.
+// 3. Run the test suite as you normally would `npm run test`
 describe("nethermind bot creation and update monitoring agent", () => {
   const rpcProvider = new ethers.providers.JsonRpcProvider(getJsonRpcUrl());
   // @TODO: Wrap this into provideHandleTransaction
