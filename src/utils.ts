@@ -13,6 +13,7 @@ export const createTxEventFromReceipt = async (
 ): Promise<TransactionEvent> => {
   const receipt = await rpcProvider.getTransactionReceipt(txHash);
   let sender = receipt.from;
+  /* @audit-issue There should be a sanity check that the log comes from the `contract` provided */
   // @TODO: This should probably dynamically select logs to parse
   // or even better parse all of them
   let parsedLog = contract.interface.parseLog(receipt.logs[0]);
