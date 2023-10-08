@@ -13,7 +13,6 @@ describe("nethermind bot creation and update monitoring agent", () => {
   let handleTransaction: HandleTransaction;
   // @TODO: Move this to initialise function
   let agentRegistry: ethers.Contract;
-  const mockTxEvent = createTransactionEvent({} as any);
 
   beforeAll(() => {
     handleTransaction = agent.handleTransaction;
@@ -26,7 +25,8 @@ describe("nethermind bot creation and update monitoring agent", () => {
   });
 
   it("returns empty findings when no bot created or updated in a tx", async () => {
-    const findings = await handleTransaction(mockTxEvent);
+    const txEvent = new TestTransactionEvent();
+    const findings = await handleTransaction(txEvent);
     expect(findings).toStrictEqual([]);
   });
 
