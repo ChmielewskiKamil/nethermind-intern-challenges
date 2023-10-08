@@ -5,6 +5,7 @@ import { AGENT_REGISTRY_ADDR } from "./constants";
 import { TestTransactionEvent } from "forta-agent-tools/lib/test";
 
 const rpcProvider = new ethers.providers.JsonRpcProvider(getJsonRpcUrl());
+import { NETHERMIND_BOT_UPDATE_TX } from "./test_tx_data";
 
 describe("nethermind bot creation and update monitoring agent", () => {
   let handleTransaction: HandleTransaction;
@@ -28,9 +29,7 @@ describe("nethermind bot creation and update monitoring agent", () => {
 
   it("[FORK] returns one finding for tx with bot update", async () => {
     // @TODO Move hardcoded hashed to one file and explain them there
-    const receipt = await rpcProvider.getTransactionReceipt(
-      "0xc6a4f95f3bab231a7422f4c2424645104e81de1415c07fc7538cbdb4b8dfa97b"
-    );
+    const receipt = await rpcProvider.getTransactionReceipt(NETHERMIND_BOT_UPDATE_TX);
 
     let sender = receipt.from;
     let parsedLog = agentRegistry.interface.parseLog(receipt.logs[0]);
