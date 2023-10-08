@@ -1,4 +1,4 @@
-import { createTransactionEvent, HandleTransaction, ethers, TransactionEvent, getJsonRpcUrl } from "forta-agent";
+import { HandleTransaction, ethers, TransactionEvent, getJsonRpcUrl } from "forta-agent";
 import agent, { NETHERMIND_DEPLOYER_ADDRESS } from "./agent";
 import { AGENT_REGISTRY_ABI } from "./abi/agentRegistry";
 import { AGENT_REGISTRY_ADDR } from "./constants";
