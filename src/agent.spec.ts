@@ -13,6 +13,7 @@ describe("nethermind bot creation and update monitoring agent", () => {
 
   beforeAll(() => {
     handleTransaction = agent.handleTransaction;
+    // @TODO This should be moved to initialisation
     agentRegistry = new ethers.Contract(AGENT_REGISTRY_ADDR, AGENT_REGISTRY_ABI, rpcProvider);
   });
 
@@ -26,7 +27,7 @@ describe("nethermind bot creation and update monitoring agent", () => {
   });
 
   it("[FORK] returns one finding for tx with bot update", async () => {
-    // const tx = await rpcProvider.getTransaction("0xc6a4f95f3bab231a7422f4c2424645104e81de1415c07fc7538cbdb4b8dfa97b");
+    // @TODO Move hardcoded hashed to one file and explain them there
     const receipt = await rpcProvider.getTransactionReceipt(
       "0xc6a4f95f3bab231a7422f4c2424645104e81de1415c07fc7538cbdb4b8dfa97b"
     );
