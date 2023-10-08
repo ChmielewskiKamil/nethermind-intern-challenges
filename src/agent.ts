@@ -6,7 +6,6 @@ const handleTransaction: HandleTransaction = async (txEvent) => {
   const findings: Finding[] = [];
 
   // const HARDCODED_EVENT_SIG = "event AgentUpdated(uint256,address,string,uint256[])";
-  console.log(txEvent.logs);
   // Why can't I use getEvent from the interface?
   const fortaBotUpdateEvents = txEvent.logs;
 
