@@ -35,7 +35,7 @@ describe("nethermind bot creation and update monitoring agent", () => {
     expect(findings).toHaveLength(0);
   });
 
-  it("[FORK] returns one finding for tx with bot update", async () => {
+  it("returns one finding for tx with bot update", async () => {
     // @TODO Move hardcoded hashed to one file and explain them there
     const receipt = await rpcProvider.getTransactionReceipt(NETHERMIND_BOT_UPDATE_TX);
 
