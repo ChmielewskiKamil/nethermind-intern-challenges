@@ -15,6 +15,7 @@ import {
   NETHERMIND_BOT_CREATE_TX,
   NETHERMIND_BOT_ENABLE_DISABLE_TX,
   NETHERMIND_BOT_UPDATE_TX,
+  NETHERMIND_NON_AGENT_REGISTRY_TX,
   NON_NETHERMIND_BOT_UPDATE_TX,
 } from "./test_tx_data";
 import { createTxEventFromReceipt, NetworkData } from "./utils";
@@ -112,6 +113,17 @@ describe("nethermind bot creation and update monitoring agent", () => {
 
     const findings = await handleTransaction(txEvent);
 
+    expect(findings).toStrictEqual([]);
+  });
+
+  it("should not alert when nethermind deployer interacts with different contract", async () => {
+    const txEvent: TransactionEvent = await createTxEventFromReceipt(
+      agentRegistry,
+      NETHERMIND_NON_AGENT_REGISTRY_TX,
+      rpcProvider
+    );
+
+    const findings = await handleTransaction(txEvent);
     expect(findings).toStrictEqual([]);
   });
 });
