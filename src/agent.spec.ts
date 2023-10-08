@@ -19,16 +19,13 @@ import {
 import { createTxEventFromReceipt } from "./utils";
 
 describe("nethermind bot creation and update monitoring agent", () => {
-  // @TODO: Move this part to NetworkManager and later to initialise function
   const rpcProvider = new ethers.providers.JsonRpcProvider(getJsonRpcUrl());
   // @TODO: Wrap this into provideHandleTransaction
   let handleTransaction: HandleTransaction;
-  // @TODO: Move this to initialise function
   let agentRegistry: ethers.Contract;
 
   beforeAll(() => {
     handleTransaction = agent.handleTransaction;
-    // @TODO This should be moved to initialisation
     agentRegistry = new ethers.Contract(AGENT_REGISTRY_ADDR, AGENT_REGISTRY_ABI, rpcProvider);
   });
 
