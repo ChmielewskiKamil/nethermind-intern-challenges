@@ -78,7 +78,7 @@ describe("nethermind bot creation and update monitoring agent", () => {
 
     const findings = await handleTransaction(txEvent);
 
-    expect(findings).toStrictEqual(
+    expect(findings).toStrictEqual([
       Finding.fromObject({
         name: "Forta Agent has been created",
         description: "Forta Agent has been created by 0x88dC3a2284FA62e0027d6D6B1fCfDd2141a143b8",
@@ -87,8 +87,8 @@ describe("nethermind bot creation and update monitoring agent", () => {
         type: FindingType.Info,
         severity: FindingSeverity.Info,
         metadata: {},
-        addresses: ["0x88dC3a2284FA62e0027d6D6B1fCfDd2141a143b8"],
-      })
-    );
+        addresses: ["0x88dc3a2284fa62e0027d6d6b1fcfdd2141a143b8"],
+      }),
+    ]);
   });
 });
