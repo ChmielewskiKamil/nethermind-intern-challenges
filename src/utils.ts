@@ -1,6 +1,11 @@
 import { ethers, Finding, FindingSeverity, FindingType, LogDescription, TransactionEvent } from "forta-agent";
 import { TestTransactionEvent } from "forta-agent-tools/lib/test";
 
+/**
+ * @dev Utility function usefull for interacting with the on-chain data. Given that you have the transaction hash,
+ *      you can easily create a TransactionEvent, that will be used in your tests. It returns a promise,
+ *      so you have to await it.
+ */
 export const createTxEventFromReceipt = async (
   contract: ethers.Contract,
   txHash: string,
@@ -27,8 +32,13 @@ export const createTxEventFromReceipt = async (
   return txEvent;
 };
 
-// Forked from @0xtaf's
-// https://github.com/NethermindEth/Forta-Agents/blob/main/compound-comptroller-bot/src/finding.ts
+/**
+ * @dev   Not to be used in testing! In case this is incorrect, you won't be able to catch the bug.
+ *        The idea is taken from @0xtaf's compound-comprtoller-bot:
+ *        https://github.com/NethermindEth/Forta-Agents/blob/main/compound-comptroller-bot/src/finding.ts
+ * @param log Provide it with the log that you will get from the `filterLog` function.
+ *        It will match the log signature and create the appropriate finding.
+ */
 export const createFinding = (log: LogDescription): Finding => {
   switch (log.signature) {
     case "Transfer(address,address,uint256)":
