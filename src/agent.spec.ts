@@ -3,7 +3,7 @@ import agent, { NETHERMIND_DEPLOYER_ADDRESS } from "./agent";
 import { AGENT_REGISTRY_ABI } from "./abi/agentRegistry";
 import { AGENT_REGISTRY_ADDR } from "./constants";
 import { TestTransactionEvent } from "forta-agent-tools/lib/test";
-import { NETHERMIND_BOT_UPDATE_TX } from "./test_tx_data";
+import { NETHERMIND_BOT_ENABLE_DISABLE_TX, NETHERMIND_BOT_UPDATE_TX } from "./test_tx_data";
 
 describe("nethermind bot creation and update monitoring agent", () => {
   // @TODO: Move this part to NetworkManager and later to initialise function
@@ -24,9 +24,15 @@ describe("nethermind bot creation and update monitoring agent", () => {
   });
 
   it("returns empty findings when no bot created or updated in a tx", async () => {
-    const txEvent = new TestTransactionEvent();
+    const receipt = await rpcProvider.getTransactionReceipt(NETHERMIND_BOT_ENABLE_DISABLE_TX);
+    let sender = receipt.from;
+    let parsedLog = agentRegistry.interface.parseLog(receipt.logs[0]);
+    let inputs = parsedLog.args;
+    let eventFragment = parsedLog.eventFragment;
+
+    const txEvent = new TestTransactionEvent().addEventLog(eventFragment, sender, inputs);
     const findings = await handleTransaction(txEvent);
-    expect(findings).toStrictEqual([]);
+    expect(findings).toHaveLength(0);
   });
 
   it("[FORK] returns one finding for tx with bot update", async () => {
